@@ -22,5 +22,10 @@ export default class Controller {
 
   async onStopRecording() {
     this.recorder.stopRecording();
+    setTimeout(() => {
+      const audioURL = this.recorder.getRecordingURL();
+      this.view.playAudio(audioURL);
+    });
+
   }
 }

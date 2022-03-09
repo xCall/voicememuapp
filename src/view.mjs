@@ -2,22 +2,43 @@ export default class View {
   constructor() {
     this.btnStart = document.getElementById('btnStart');
     this.btnStop = document.getElementById('btnStop');
-    this.audio = document.getElementById('audio');
+    this.audioElement = document.getElementById('audio');
   }
+
   onRecordClick(command) {
+
     return () => {
-      command()
+      command();
+      this.toggleAudioElement({ visible: false });
+
     }
   }
-  onStopRecordClick(command) {
+
+  onStopRecordingClick(command) {
+
     return () => {
-      command()
+      command();
     }
   }
+
   configureStartRecordingButton(command) {
     this.btnStart.addEventListener('click', this.onRecordClick(command));
   }
+
   configureStopRecordingButton(command) {
-    this.btnStop.addEventListener('click', this.onStopRecordClick(command));
+    this.btnStop.addEventListener('click', this.onStopRecordingClick(command));
+  }
+
+  toggleAudioElement({ visible }) {
+    const classList = this.audioElement.classList
+    visible ? classList.remove('hidden') : classList.add('hidden');
+  }
+
+  playAudio(url) {
+    const audio = this.audioElement;
+    audio.src = url;
+    audio.muted = false;
+    this.toggleAudioElement({ visible: true });
+    audio.addEventListener("loadedmetadata", _ => audio.play());
   }
 }

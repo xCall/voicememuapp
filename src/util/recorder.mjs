@@ -26,9 +26,9 @@ export default class Recorder {
 
     this.mediaRecorder.ondataavailable = (event) => {
       if (!event.data || !event.data.size) return;
-
-      this.recordedBlobs.push(event.data)
+      this.recordedBlobs.push(event.data);
     }
+
     this.mediaRecorder.start();
     console.log('Media Recorded started', this.mediaRecorder);
   }
@@ -38,5 +38,10 @@ export default class Recorder {
     this.mediaRecorder.stop();
 
     console.log('media recorded stopped');
+  }
+
+  getRecordingURL() {
+    const blob = new Blob(this.recordedBlobs, {type: this.audioType});
+    return window.URL.createObjectURL(blob);
   }
 }
